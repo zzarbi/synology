@@ -41,10 +41,37 @@ class Synology_DownloadStation_Api extends Synology_Abstract{
 	/**
 	 * Get Limitation settings
 	 * 
-	 * @return boolean
+	 * @return stdClass
 	 */
 	public function getConfig(){
 		return $this->_request('Info', 'DownloadStation/info.cgi', 'getconfig');
+	}
+	
+	/**
+	 * Set Limitation settings
+	 *
+	 * @return boolean
+	 */
+	public function setConfig($params){
+		return $this->_request('Info', 'DownloadStation/info.cgi', 'setserverconfig', $params, null, 'post');
+	}
+	
+	/**
+	 * Get Schedule settings
+	 * 
+	 * @return stdClass
+	 */
+	public function getScheduleConfig(){
+		return $this->_request('Schedule', 'DownloadStation/schedule.cgi', 'getconfig');
+	}
+	
+	/**
+	 * Set Limitation settings
+	 *
+	 * @return boolean
+	 */
+	public function setScheduleConfig($params){
+		return $this->_request('Schedule', 'DownloadStation/schedule.cgi', 'setserverconfig', $params, null, 'post');
 	}
 	
 	/**
@@ -94,7 +121,7 @@ class Synology_DownloadStation_Api extends Synology_Abstract{
 	}
 	
 	/**
-	 * Create a new Task
+	 * Add a new Task
 	 * 
 	 * @param string $uri
 	 * @param unknown $file
@@ -103,7 +130,7 @@ class Synology_DownloadStation_Api extends Synology_Abstract{
 	 * @param string $zipPassword
 	 * @return Ambigous <stdClass, multitype:, boolean>
 	 */
-	public function taskCreate($uri, $file=null, $login=null, $password=null, $zipPassword=null){
+	public function addTask($uri, $file=null, $login=null, $password=null, $zipPassword=null){
 		$params = array('uri'=>$uri);
 		if(!empty($login)){
 			$params['login'] = $login;
@@ -127,7 +154,7 @@ class Synology_DownloadStation_Api extends Synology_Abstract{
 	 * @param bool $forceComplete
 	 * @return Ambigous <stdClass, multitype:, boolean>
 	 */
-	public function taskDelete($taskId, $forceComplete = false){
+	public function deleteTask($taskId, $forceComplete = false){
 		$params = array();
 		if(is_array($taskId)){
 			$params['id'] = implode(',', $taskId);
@@ -148,7 +175,7 @@ class Synology_DownloadStation_Api extends Synology_Abstract{
 	 * @param ustring|array $taskId
 	 * @return Ambigous <stdClass, multitype:, boolean>
 	 */
-	public function taskPause($taskId){
+	public function pauseTask($taskId){
 		$params = array();
 		if(is_array($taskId)){
 			$params['id'] = implode(',', $taskId);
@@ -164,7 +191,7 @@ class Synology_DownloadStation_Api extends Synology_Abstract{
 	 * @param ustring|array $taskId
 	 * @return Ambigous <stdClass, multitype:, boolean>
 	 */
-	public function taskResume($taskId){
+	public function resumeTask($taskId){
 		$params = array();
 		if(is_array($taskId)){
 			$params['id'] = implode(',', $taskId);
@@ -208,7 +235,7 @@ class Synology_DownloadStation_Api extends Synology_Abstract{
 	 * @param ustring|array $rssId
 	 * @return stdClass
 	 */
-	public function getRssRefresh($rssId='ALL'){
+	public function refreshRss($rssId='ALL'){
 		$params = array();
 		if(is_array($rssId)){
 			$params['id'] = implode(',', $rssId);

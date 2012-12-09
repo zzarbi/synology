@@ -36,7 +36,7 @@ class Synology_Api extends Synology_Abstract{
 			
 			$services[$keys[0]][$keys[1]][$keys[2]] = $value;
 		}
-		print_r($services);
+		return $services;
 	}
 	
 	/**
