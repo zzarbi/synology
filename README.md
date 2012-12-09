@@ -3,29 +3,29 @@ Synology
 
 This is an simple implementation of the Synology API in PHP.
 API Implemented so far:
-- SYNO.Info
--- getAvailableApi
--- connect
--- disconnect
+* SYNO.Info
+** getAvailableApi
+** connect
+** disconnect
 
-- SYNO.DownloadStation
--- connect
--- disconnect
--- getInfo
--- getConfig
--- setConfig
--- getScheduleConfig
--- setScheduleConfig
--- getTaskList
--- getTaskInfo
--- addTask
--- deleteTask
--- pauseTask
--- resumeTask
--- getStatistics
--- getRssList
--- refreshRss
--- getRssFeedList
+* SYNO.DownloadStation
+** connect
+** disconnect
+** getInfo
+** getConfig
+** setConfig
+** getScheduleConfig
+** setScheduleConfig
+** getTaskList
+** getTaskInfo
+** addTask
+** deleteTask
+** pauseTask
+** resumeTask
+** getStatistics
+** getRssList
+** refreshRss
+** getRssFeedList
 
 Usage:
 ```php
