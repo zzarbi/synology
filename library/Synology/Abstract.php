@@ -50,8 +50,10 @@ class Synology_Abstract {
 	 * @param string $method
 	 * @param array $params
 	 * @param int $version
+	 * @param string $httpMethod
+	 * @return stdClass|array|bool
 	 */
-	protected function _request($api, $path, $method, $params = array(), $version = null){
+	protected function _request($api, $path, $method, $params = array(), $version = null, $httpMethod = 'get'){
 		if(!is_array($params)){
 			if(!empty($params)){
 				$params = array($params);
@@ -63,14 +65,26 @@ class Synology_Abstract {
 		$params['version'] = ((int)$version>0)?(int)$version:$this->_version;
 		$params['method'] = $method;
 		
-		$url = $this->_getBaseUrl().$path.'?'.http_build_query($params);
-		$this->log($url, 'Requested Url');
-		
 		// create a new cURL resource
 		$ch = curl_init();
 		
+		if($httpMethod !== 'post'){
+			$url = $this->_getBaseUrl().$path.'?'.http_build_query($params);
+			$this->log($url, 'Requested Url');
+			
+			curl_setopt($ch, CURLOPT_URL, $url);
+		}else{
+			$url = $this->_getBaseUrl().$path;
+			$this->log($url, 'Requested Url');
+			$this->log($params, 'Post Variable');
+			
+			//set the url, number of POST vars, POST data
+			curl_setopt($ch,CURLOPT_URL, $url);
+			curl_setopt($ch,CURLOPT_POST, count($params));
+			curl_setopt($ch,CURLOPT_POSTFIELDS, http_build_query($params));
+		}
+		
 		// set URL and other appropriate options
-		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		
@@ -93,6 +107,7 @@ class Synology_Abstract {
 	/**
 	 * @param string $data
 	 * @throws Exception
+	 * @return stdClass|array|bool
 	 */
 	private function _parseRequest($json){
 		if(($data = json_decode(trim($json))) !== null){
