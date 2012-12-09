@@ -49,7 +49,7 @@ class Synology_Abstract {
 	 * @param string $method
 	 * @param array $params
 	 */
-	protected function _request($path, $method, $params = array()){
+	protected function _request($api, $path, $method, $params = array()){
 		if(!is_array($params)){
 			if(!empty($params)){
 				$params = array($params);
@@ -57,7 +57,7 @@ class Synology_Abstract {
 				$params = array();
 			}
 		}
-		$params['api'] = $this->_name;
+		$params['api'] = $this->_name.'.'.$api;
 		$params['version'] = $this->_version;
 		$params['method'] = $method;
 		
@@ -81,7 +81,7 @@ class Synology_Abstract {
 			return $this->_parseRequest($result);
 		}else{
 			curl_close($ch);
-			throw new Exception();
+			throw new Synology_Exception('Connection Error');
 		}
 		
 		// close cURL resource, and free up system resources
@@ -97,10 +97,10 @@ class Synology_Abstract {
 			if($data->success == 1){
 				return $data->data;
 			}else{
-			throw new Exception();
+				throw new Synology_Exception(null, $data->error);
 			}
 		}else{
-			throw new Exception();
+			throw new Synology_Exception();
 		}
 	}
 	
@@ -111,6 +111,12 @@ class Synology_Abstract {
 		$this->_debug = true;
 	}
 	
+	/**
+	 * Log different data
+	 * 
+	 * @param mixed $value
+	 * @param string $key
+	 */
 	protected function log($value, $key = null){
 		if($this->_debug){
 			if($key != null){

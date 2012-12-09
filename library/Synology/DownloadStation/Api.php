@@ -1,6 +1,6 @@
 <?php
-class Synology_Info_Api extends Synology_Abstract{
-	const API_NAME = 'SYNO.API.Info';
+class Synology_DowloadStation_Api extends Synology_Abstract{
+	const API_NAME = 'SYNO.DownloadStation';
 	
 	/**
 	 * Info API setup
@@ -20,7 +20,7 @@ class Synology_Info_Api extends Synology_Abstract{
 	 */
 	public function getAvailableApi(){
 		$services = array();
-		foreach($this->_request('query.cgi', 'query', array('query'=>'all')) as $key => $value){
+		foreach($this->_request('Info', 'query.cgi', 'query', array('query'=>'all')) as $key => $value){
 			$keys = explode('.', $key);
 			if(!array_key_exists($keys[0], $services)){
 				$services[$keys[0]] = array();
