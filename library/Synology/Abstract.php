@@ -45,11 +45,13 @@ class Synology_Abstract {
 	/**
 	 * Process a request
 	 * 
+	 * @param string $api
 	 * @param string $path
 	 * @param string $method
 	 * @param array $params
+	 * @param int $version
 	 */
-	protected function _request($api, $path, $method, $params = array()){
+	protected function _request($api, $path, $method, $params = array(), $version = null){
 		if(!is_array($params)){
 			if(!empty($params)){
 				$params = array($params);
@@ -58,7 +60,7 @@ class Synology_Abstract {
 			}
 		}
 		$params['api'] = $this->_name.'.'.$api;
-		$params['version'] = $this->_version;
+		$params['version'] = ((int)$version>0)?(int)$version:$this->_version;
 		$params['method'] = $method;
 		
 		$url = $this->_getBaseUrl().$path.'?'.http_build_query($params);
@@ -95,9 +97,13 @@ class Synology_Abstract {
 	private function _parseRequest($json){
 		if(($data = json_decode(trim($json))) !== null){
 			if($data->success == 1){
-				return $data->data;
+				if(isset($data->data)){
+					return $data->data;
+				}else{
+					return true;
+				}
 			}else{
-				throw new Synology_Exception(null, $data->error);
+				throw new Synology_Exception(null, $data->error->code);
 			}
 		}else{
 			throw new Synology_Exception();
