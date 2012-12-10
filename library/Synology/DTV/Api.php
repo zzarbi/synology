@@ -1,6 +1,7 @@
 <?php
-class Synology_DTV_Api extends Synology_Abstract{
-	const API_NAME = 'SYNO.DTV';
+class Synology_DTV_Api extends Synology_Api_Authenticate{
+	const API_SERVICE_NAME = 'DTV';
+	const API_NAMESPACE = 'SYNO';
 	
 	/**
 	 * Info API setup
@@ -11,6 +12,6 @@ class Synology_DTV_Api extends Synology_Abstract{
 	 * @param int $version
 	 */
 	public function __construct($address, $port = null, $protocol = null, $version = 1){
-		parent::__construct(self::API_NAME, $address, $port, $protocol, $version);
+		parent::__construct(self::API_SERVICE_NAME, self::API_NAMESPACE, $address, $port, $protocol, $version);
 	}
 }

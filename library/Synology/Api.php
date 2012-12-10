@@ -1,6 +1,7 @@
 <?php
 class Synology_Api extends Synology_Abstract{
-	const API_NAME = 'SYNO.API';
+	const API_SERVICE_NAME = 'API';
+	const API_NAMESPACE = 'SYNO';
 	
 	private $_sid = null;
 	private $_sessionName = 'default';
@@ -14,7 +15,7 @@ class Synology_Api extends Synology_Abstract{
 	 * @param int $version
 	 */
 	public function __construct($address, $port = null, $protocol = null, $version = 1){
-		parent::__construct(self::API_NAME, $address, $port, $protocol, $version);
+		parent::__construct(self::API_SERVICE_NAME, self::API_NAMESPACE, $address, $port, $protocol, $version);
 	}
 	
 	/**

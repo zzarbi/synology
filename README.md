@@ -2,7 +2,7 @@ Synology PHP
 =================
 
 This is a PHP Library that consume Synology APIs
-API Implemented so far:
+
 * SYNO.Info :
     * getAvailableApi
     * connect
@@ -27,6 +27,12 @@ API Implemented so far:
     * refreshRss
     * getRssFeedList
 
+* SYNO.AudioStation:
+    * getInfo
+    
+* SYNO.VideoStation:
+    * getInfo
+    
 Usage:
 ```php
 $synology = new Synology_DownloadStation_Api('192.168.10.5', 5000, 'http', 1);

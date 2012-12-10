@@ -2,25 +2,29 @@
 class Synology_Abstract {
 	const PROTOCOL_HTTP = 'http';
 	const PROTOCOL_HTTPS = 'https';
+	const API_NAMESPACE = 'SYNO';
 	
 	private $_protocol = self::PROTOCOL_HTTP;
 	private $_port = 80;
 	private $_address = '';
 	private $_version = 1;
-	private $_name = null;
+	private $_serviceName = null;
+	private $_namespace = null;
 	private $_debug= false;
 	
 	/**
 	 * Setup API
 	 * 
-	 * @param string $name
+	 * @param string $serviceName
+	 * @param string $namespace
 	 * @param string $address
 	 * @param int $port
 	 * @param string $protocol
 	 * @param int $version
 	 */
-	public function __construct($name, $address, $port = null, $protocol = self::PROTOCOL_HTTP, $version = 1){
-		$this->_name = $name;
+	public function __construct($serviceName, $namespace, $address, $port = null, $protocol = self::PROTOCOL_HTTP, $version = 1){
+		$this->_serviceName = $serviceName;
+		$this->_namespace = $namespace;
 		$this->_address = $address;
 		if(!empty($port) && is_numeric($port)){
 			$this->_port = (int)$port;
@@ -43,6 +47,14 @@ class Synology_Abstract {
 	}
 	
 	/**
+	 * Get ApiName
+	 * @param string $api
+	 */
+	private function _getApiName($api){
+		return $this->_namespace.'.'.$this->_serviceName.'.'.$api;
+	}
+	
+	/**
 	 * Process a request
 	 * 
 	 * @param string $api
@@ -61,7 +73,7 @@ class Synology_Abstract {
 				$params = array();
 			}
 		}
-		$params['api'] = $this->_name.'.'.$api;
+		$params['api'] = $this->_getApiName($api);
 		$params['version'] = ((int)$version>0)?(int)$version:$this->_version;
 		$params['method'] = $method;
 		

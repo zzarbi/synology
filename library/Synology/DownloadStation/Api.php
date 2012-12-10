@@ -1,9 +1,7 @@
 <?php
-class Synology_DownloadStation_Api extends Synology_Abstract{
-	const API_NAME = 'SYNO.DownloadStation';
-	const SESSION_NAME = 'DownloadStation';
-	
-	private $_authApi = null;
+class Synology_DownloadStation_Api extends Synology_Api_Authenticate{
+	const API_SERVICE_NAME = 'DownloadStation';
+	const API_NAMESPACE = 'SYNO';
 	
 	/**
 	 * Info API setup
@@ -14,22 +12,11 @@ class Synology_DownloadStation_Api extends Synology_Abstract{
 	 * @param int $version
 	 */
 	public function __construct($address, $port = null, $protocol = null, $version = 1){
-		parent::__construct(self::API_NAME, $address, $port, $protocol, $version);
-		$this->_authApi = new Synology_Api($address, $port, $protocol, $version);
+		parent::__construct(self::API_SERVICE_NAME, self::API_NAMESPACE,$address, $port, $protocol, $version);
 	}
 	
 	/**
-	 * Connect to Synology
-	 * 
-	 * @param string $login
-	 * @param string $password
-	 */
-	public function connect($login, $password){
-		return $this->_authApi->connect($login, $password, self::SESSION_NAME);
-	}
-	
-	/**
-	 * Return Information about synology
+	 * Return Information about DownloadStation
 	 * - is_manager
 	 * - version
 	 * - version_string
@@ -269,33 +256,5 @@ class Synology_DownloadStation_Api extends Synology_Abstract{
 		}
 		
 		return $this->_request('RSS.Feed', 'DownloadStation/RSSfeed.cgi', 'list', $params);
-	}
-	
-	/* (non-PHPdoc)
-	 * @see Synology_Abstract::_request()
-	 */
-	protected function _request($api, $path, $method, $params = array(), $version = null, $httpMethod = 'get'){
-		if($this->_authApi->isConnected()){
-			if(!is_array($params)){
-				if(!empty($params)){
-					$params = array($params);
-				}else{
-					$params = array();
-				}
-			}
-			
-			$params['_sid'] = $this->_authApi->getSessionId();
-			
-			return parent::_request($api, $path, $method, $params, $version, $httpMethod);
-		}
-		throw new Synology_Exception('Not Connected');
-	}
-	
-	/* (non-PHPdoc)
-	 * @see Synology_Abstract::activateDebug()
-	 */
-	public function activateDebug(){
-		parent::activateDebug();
-		$this->_authApi->activateDebug();
 	}
 }

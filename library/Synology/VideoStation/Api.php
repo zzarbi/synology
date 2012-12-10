@@ -1,6 +1,7 @@
 <?php
-class Synology_VideoStation_Api extends Synology_Abstract{
-	const API_NAME = 'SYNO.VideoStation';
+class Synology_VideoStation_Api extends Synology_Api_Authenticate{
+	const API_SERVICE_NAME = 'VideoStation';
+	const API_NAMESPACE = 'SYNO';
 	
 	/**
 	 * Info API setup
@@ -11,28 +12,16 @@ class Synology_VideoStation_Api extends Synology_Abstract{
 	 * @param int $version
 	 */
 	public function __construct($address, $port = null, $protocol = null, $version = 1){
-		parent::__construct(self::API_NAME, $address, $port, $protocol, $version);
+		parent::__construct(self::API_SERVICE_NAME, self::API_NAMESPACE, $address, $port, $protocol, $version);
 	}
 	
 	/**
-	 * Get a list of Service and Apis
-	 * @return array
+	 * Return Information about VideoStation
+	 * - is_manager
+	 * - version
+	 * - version_string
 	 */
-	public function getAvailableApi(){
-		$services = array();
-		foreach($this->_request('Info', 'query.cgi', 'query', array('query'=>'all')) as $key => $value){
-			$keys = explode('.', $key);
-			if(!array_key_exists($keys[0], $services)){
-				$services[$keys[0]] = array();
-			}
-			
-			
-			if(!array_key_exists($keys[1], $services[$keys[0]])){
-				$services[$keys[0]][$keys[1]] = array();
-			}
-			
-			$services[$keys[0]][$keys[1]][$keys[2]] = $value;
-		}
-		print_r($services);
+	public function getInfo(){
+		return $this->_request('Info', 'VideoStation/info.cgi', 'getinfo');
 	}
 }
