@@ -1,6 +1,6 @@
 <?php
 class Synology_DSM_Api extends Synology_Api_Authenticate{
-	const API_SERVICE_NAME = 'DSM';
+	const API_SERVICE_NAME = 'API';
 	const API_NAMESPACE = 'SYNO';
 	
 	/**
@@ -22,6 +22,6 @@ class Synology_DSM_Api extends Synology_Api_Authenticate{
 	 * - version_string
 	 */
 	public function getInfo(){
-		return $this->_request('Info', 'DSM/info.cgi', 'getinfo');
+		return $this->_request('Info', 'query.cgi', 'query');
 	}
 }
