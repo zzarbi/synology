@@ -46,7 +46,7 @@ class Synology_Api extends Synology_Abstract{
 	 * @param string $username
 	 * @param string $password
 	 * @param string $sessionName
-	 * @return string
+	 * @return Synology_Api
 	 */
 	public function connect($username, $password, $sessionName = null){
 		if(!empty($sessionName)){
@@ -67,19 +67,19 @@ class Synology_Api extends Synology_Abstract{
 		// save session name id
 		$this->_sid = $data->sid;
 		
-		return true;
+		return $this;
 	}
 	
 	/**
 	 * Logout from Synology
 	 * 
-	 * @return boolean
+	 * @return Synology_Api
 	 */
 	public function disconnect(){
 		$this->log($this->_sessionName, 'Disconnect Session');
 		$this->_request('Auth', 'auth.cgi', 'logout', array('session' => $this->_sessionName));
 		$this->_sid = null;
-		return true;
+		return $this;
 	}
 	
 	/**

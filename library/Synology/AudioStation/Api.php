@@ -22,6 +22,66 @@ class Synology_AudioStation_Api extends Synology_Api_Authenticate{
 	 * - version_string
 	 */
 	public function getInfo(){
-		return $this->_request('Info', 'AudioStation/info.cgi', 'getinfo');
+		return $this->_request('Info', 'AudioStation/info.cgi', 'getinfo', array(), 2);
+	}
+	
+	/**
+	 * Get a list of objects
+	 * 
+	 * @param string $type (Album|Composer|Genre|Artist|Folder|Song|Radio|Playlist|RemotePlayer|MediaServer)
+	 * @param int $limit
+	 * @param int $offset
+	 * @return array
+	 */
+	public function getObjects($type, $limit = 25, $offset = 0){
+		$path = '';
+		switch ($type){
+			case 'Album':
+				$path = 'AudioStation/album.cgi';break;
+			case 'Composer':
+				$path = 'AudioStation/composer.cgi';break;
+			case 'Genre':
+				$path = 'AudioStation/genre.cgi';break;
+			case 'Artist':
+				$path = 'AudioStation/artist.cgi';break;
+			case 'Folder':
+				$path = 'AudioStation/folder.cgi';break;
+			case 'Song':
+				$path = 'AudioStation/song.cgi';break;
+			case 'Radio':
+				$path = 'AudioStation/radio.cgi';break;
+			case 'Playlist':
+				$path = 'AudioStation/playlist.cgi';break;
+			case 'RemotePlayer':
+				$path = 'AudioStation/remote_player.cgi';break;
+			case 'MediaServer':
+				$path = 'AudioStation/media_server.cgi';break;
+			default:
+				new Synology_Exception('Unknow "'.$type.'" object');
+		}
+		return $this->_request($type, $path, 'list', array('limit' => $limit, 'offset' => $offset));
+	}
+	
+	/**
+	 * Get info about an object
+	 * 
+	 * @param string $type (Folder|Song|Playlist)
+	 * @param strng $id
+	 * @return array
+	 */
+	public function getObjectInfo($type, $id){
+		$path = '';
+		switch ($type){
+			case 'Folder':
+				$path = 'AudioStation/folder.cgi';break;
+			case 'Song':
+				$path = 'AudioStation/song.cgi';break;
+			case 'Playlist':
+				$path = 'AudioStation/playlist.cgi';break;
+			default:
+				new Synology_Exception('Unknow "'.$type.'" object');
+		}
+		return $this->_request($type, $path, 'getinfo', array('id' => $id));
+	
 	}
 }

@@ -109,6 +109,7 @@ class Synology_Abstract {
 			return $this->_parseRequest($result);
 		}else{
 			curl_close($ch);
+			$this->log($result, 'Result');
 			throw new Synology_Exception('Connection Error');
 		}
 		
@@ -139,9 +140,12 @@ class Synology_Abstract {
 	
 	/**
 	 * Activate the debug mode
+	 * 
+	 * @return Synology_Abstract
 	 */
 	public function activateDebug(){
 		$this->_debug = true;
+		return $this;
 	}
 	
 	/**
