@@ -105,8 +105,12 @@ class Synology_Abstract {
 		$info = curl_getinfo($ch);
 		
 		$this->log($info['http_code'], 'Response code');
-		if($info['http_code'] == 200){
-			return $this->_parseRequest($result);
+		if(200 == $info['http_code']){
+			if(preg_match('#(plain|text)#', $info['content_type'])){
+				return $this->_parseRequest($result);
+			}else{
+				return $result;
+			}
 		}else{
 			curl_close($ch);
 			$this->log($result, 'Result');

@@ -82,6 +82,25 @@ class Synology_AudioStation_Api extends Synology_Api_Authenticate{
 				new Synology_Exception('Unknow "'.$type.'" object');
 		}
 		return $this->_request($type, $path, 'getinfo', array('id' => $id));
+	}
 	
+	/**
+	 * Get cover of an object
+	 * 
+	 * @param string $type (Song|Folder)
+	 * @param strng $id
+	 * @return array
+	 */
+	public function getObjectCover($type, $id){
+		$method = '';
+		switch ($type){
+			case 'Song':
+				$method = 'getsongcover';break;
+			case 'Folder':
+				$method = 'getfoldercover';break;
+			default:
+				new Synology_Exception('Unknow "'.$type.'" object');
+		}
+		return $this->_request('Cover', 'AudioStation/cover.cgi', $method, array('id' => $id));
 	}
 }
