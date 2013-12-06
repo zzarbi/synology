@@ -138,7 +138,8 @@ class Synology_Abstract {
 				throw new Synology_Exception(null, $data->error->code);
 			}
 		}else{
-			throw new Synology_Exception();
+			// return raw data
+			return $json;
 		}
 	}
 	
