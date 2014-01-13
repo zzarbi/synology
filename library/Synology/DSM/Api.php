@@ -45,11 +45,11 @@ class Synology_DSM_Api extends Synology_Api_Authenticate{
 			case 'Application':
 				$path = 'dsm/app.cgi';break;
 			case 'Service':
-				$path = 'dsm/service.cgii';break;
+				$path = 'dsm/service.cgi';break;
 			case 'Package':
 				$path = 'dsm/package.cgi';break;
 			case 'Network':
-				$path = 'dsm/network.cgii';break;
+				$path = 'dsm/network.cgi';break;
 			case 'Volume':
 				$path = 'dsm/volume.cgi';break;
 			case 'AutoBlock':
