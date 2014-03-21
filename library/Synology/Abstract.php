@@ -11,6 +11,16 @@ class Synology_Abstract {
 	private $_serviceName = null;
 	private $_namespace = null;
 	private $_debug= false;
+	private $_errorCodes = array(
+		100 => 'Unknown error',
+		101 => 'No parameter of API, method or version',
+		102 => 'The requested API does not exist',
+		103 => 'The requested method does not exist',
+		104 => 'The requested version does not support the functionality',
+		105 => 'The logged in session does not have permission',
+		106 => 'Session timeout',
+		107 => 'Session interrupted by duplicate login'
+	);
 	
 	/**
 	 * Setup API
@@ -135,7 +145,9 @@ class Synology_Abstract {
 					return true;
 				}
 			}else{
-				throw new Synology_Exception(null, $data->error->code);
+				if(array_key_exists($data->error->code, $this->_errorCodes)){
+					throw new Synology_Exception($this->_errorCodes[$data->error->code]);
+				}
 			}
 		}else{
 			// return raw data

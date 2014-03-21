@@ -34,11 +34,24 @@ This is a PHP Library that consume Synology APIs
     * getObjects
     * getObjectInfo
     * getObjectCover
+    * searchSong
+    
+* SYNO.FileStation:
+    * connect
+    * disconnect
+    * getInfo
+    * getShares
+    * getObjectInfo
+    * getList
+    * search
+    * download
     
 * SYNO.VideoStation:
     * connect
     * disconnect
     * getInfo
+    * getObjects
+    * searchObject
     
 Usage for Synology Api:
 ```php

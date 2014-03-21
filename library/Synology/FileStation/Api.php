@@ -62,16 +62,18 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate{
 			case 'Sharing':
 				$path = 'FileStation/file_sharing.cgi';break;
 			default:
-				new Synology_Exception('Unknow "'.$type.'" object');
+				throw new Synology_Exception('Unknow "'.$type.'" object');
 		}
 		return $this->_request($type, $path, 'getinfo', array('id' => $id));
 	}
 	
 	/**
+	 * Get a list of files/directories in a given path
+	 * 
 	 * @param string $path like '/home'
 	 * @param number $limit
 	 * @param number $offset
-	 * @param string $sortby
+	 * @param string $sortby (name|size|user|group|mtime|atime|ctime|crtime|posix|type)
 	 * @param string $sortdirection
 	 * @param string $pattern 
 	 * @param string $filetype (all|file|dir)
@@ -79,6 +81,32 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate{
 	 * @return array
 	 */
 	public function getList($path = '/home', $limit = 25, $offset= 0, $sortby = 'name', $sortdirection = 'asc',$pattern='', $filetype='all', $additional = false){
+		return $this->_request('List', 'FileStation/file_share.cgi', 'list', array(
+			'folder_path' => $path,
+			'limit' => $limit,
+			'offset' => $offset,
+			'sort_by' => $sortby,
+			'sort_direction' => $sortdirection,
+			'pattern' => $pattern,
+			'filetype' => $filetype,
+			'additional' => $additional?'real_path,size,owner,time,perm':''
+		));
+	}
+	
+	/**
+	 * Search for files/directories in a given path
+	 * 
+	 * @param string $pattern
+	 * @param string $path like '/home'
+	 * @param number $limit
+	 * @param number $offset
+	 * @param string $sortby (name|size|user|group|mtime|atime|ctime|crtime|posix|type)
+	 * @param string $sortdirection (asc|desc)
+	 * @param string $filetype (all|file|dir)
+	 * @param bool   $additional
+	 * @return array
+	 */
+	public function search($pattern, $path = '/home', $limit = 25, $offset= 0, $sortby = 'name', $sortdirection = 'asc', $filetype='all', $additional = false){
 		return $this->_request('List', 'FileStation/file_share.cgi', 'list', array(
 			'folder_path' => $path,
 			'limit' => $limit,

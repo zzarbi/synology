@@ -57,7 +57,7 @@ class Synology_AudioStation_Api extends Synology_Api_Authenticate{
 			case 'MediaServer':
 				$path = 'AudioStation/media_server.cgi';break;
 			default:
-				new Synology_Exception('Unknow "'.$type.'" object');
+				throw new Synology_Exception('Unknow "'.$type.'" object');
 		}
 		return $this->_request($type, $path, 'list', array('limit' => $limit, 'offset' => $offset));
 	}
@@ -79,7 +79,7 @@ class Synology_AudioStation_Api extends Synology_Api_Authenticate{
 			case 'Playlist':
 				$path = 'AudioStation/playlist.cgi';break;
 			default:
-				new Synology_Exception('Unknow "'.$type.'" object');
+				throw new Synology_Exception('Unknow "'.$type.'" object');
 		}
 		return $this->_request($type, $path, 'getinfo', array('id' => $id));
 	}
@@ -99,8 +99,29 @@ class Synology_AudioStation_Api extends Synology_Api_Authenticate{
 			case 'Folder':
 				$method = 'getfoldercover';break;
 			default:
-				new Synology_Exception('Unknow "'.$type.'" object');
+				throw new Synology_Exception('Unknow "'.$type.'" object');
 		}
 		return $this->_request('Cover', 'AudioStation/cover.cgi', $method, array('id' => $id));
+	}
+
+	/**
+	 * Search for Movie|TVShow|TVShowEpisode|HomeVideo|TVRecording|Collection
+	 *
+	 * @param string $name
+	 * @param string $type (Movie|TVShow|TVShowEpisode|HomeVideo|TVRecording|Collection)
+	 * @param number $limit
+	 * @param number $offset
+	 * @param string $sortby (title|original_available)
+	 * @param string $sortdirection (asc|desc)
+	 * @return array
+	 */
+	public function searchSong($name, $limit = 25, $offset= 0, $sortby = 'title', $sortdirection = 'asc'){	
+		return $this->_request('Song', 'AudioStation/song.cgi', 'search',array(
+				'title' => $name,
+				'limit' => $limit,
+				'offset' => $offset,
+				'sort_by' => $sortby,
+				'sort_direction' => $sortdirection
+		));
 	}
 }
