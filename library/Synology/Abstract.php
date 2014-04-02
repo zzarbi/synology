@@ -3,6 +3,7 @@ class Synology_Abstract {
 	const PROTOCOL_HTTP = 'http';
 	const PROTOCOL_HTTPS = 'https';
 	const API_NAMESPACE = 'SYNO';
+	const CONNECT_TIMEOUT = 30000; //30s
 	
 	private $_protocol = self::PROTOCOL_HTTP;
 	private $_port = 80;
@@ -109,6 +110,7 @@ class Synology_Abstract {
 		// set URL and other appropriate options
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, self::CONNECT_TIMEOUT);
 		
 		// grab URL and pass it to the browser
 		$result = curl_exec($ch);
@@ -123,8 +125,12 @@ class Synology_Abstract {
 			}
 		}else{
 			curl_close($ch);
-			$this->log($result, 'Result');
-			throw new Synology_Exception('Connection Error');
+			if($info['total_time'] >= (self::CONNECT_TIMEOUT/1000)){
+				throw new Synology_Exception('Connection Timeout');
+			}else{
+				$this->log($result, 'Result');
+				throw new Synology_Exception('Connection Error');
+			}
 		}
 		
 		// close cURL resource, and free up system resources
