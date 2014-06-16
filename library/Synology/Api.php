@@ -77,7 +77,7 @@ class Synology_Api extends Synology_Abstract{
 	 */
 	public function disconnect(){
 		$this->log($this->_sessionName, 'Disconnect Session');
-		$this->_request('Auth', 'auth.cgi', 'logout', array('session' => $this->_sessionName));
+		$this->_request('Auth', 'auth.cgi', 'logout', array('_sid' => $this->_sid,'session' => $this->_sessionName));
 		$this->_sid = null;
 		return $this;
 	}
