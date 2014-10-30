@@ -257,4 +257,78 @@ class Synology_DownloadStation_Api extends Synology_Api_Authenticate{
 		
 		return $this->_request('RSS.Feed', 'DownloadStation/RSSfeed.cgi', 'list', $params);
 	}
+
+	/**
+	 * Starts a new search task
+	 * 
+	 * @param  ustring $keyword The search keyword
+	 * @param  string $module  Module name concatenated by ',' or use 'all' or 'enabled'
+	 * @return stdClass
+	 */
+	public function startSearchTask($keyword, $module = 'enabled')
+	{
+		$params = array(
+			'keyword'	=> $keyword,
+			'module' 	=> $module
+		);
+
+		return $this->_request('BTSearch', 'DownloadStation/btsearch.cgi', 'start', $params);
+	}
+
+	/**
+	 * Get list of the given search task
+	 * 
+	 * @param  ustring  $taskId
+	 * @param  integer $offset         Beginning task on the requested record
+	 * @param  integer $limit          Number of records requested
+	 * @param  string  $sortBy         Possible value is title, size, date, peers, providers, seeds or leech
+	 * @param  string  $sortDirection  Possible value is desc or asc
+	 * @param  string  $filterCategory Filter the records by the category using Category ID returned by getCategory function
+	 * @param  string  $filterTitle    Filter the records by the title using this parameter
+	 * @return stdClass
+	 */
+	public function getSearchList($taskId, $offset = 0, $limit = -1, $sortBy = 'title', $sortDirection = 'desc', $filterCategory = '', $filterTitle = '')
+	{
+		$params = array(
+			'taskid'			=> $taskId,
+			'offset'			=> $offset,
+			'limit'				=> $limit,
+			'sort_by'			=> $sortBy,
+			'sort_direction'	=> $sortDirection,
+			'filter_category'	=> $filterCategory,
+			'filter_title'		=> $filterTitle
+		);
+
+		return $this->_request('BTSearch', 'DownloadStation/btsearch.cgi', 'list', $params);
+	}
+
+	/**
+	 * Gets available categories from BTSearch
+	 * 
+	 * @return stdClass
+	 */
+	public function getCategory()
+	{
+		return $this->_request('BTSearch', 'DownloadStation/btsearch.cgi', 'getCategory');
+	}
+
+	/**
+	 * Stops and destroys a search task
+	 * @param  ustring $taskId
+	 * @return stdClass
+	 */
+	public function cleanSearch($taskId)
+	{
+		return $this->_request('BTSearch', 'DownloadStation/btsearch.cgi', 'clean', array('taskid' => $taskId));
+	}
+
+	/**
+	 * Gets the installed modules (torrent providers) from BTSearch
+	 * 
+	 * @return stdClass
+	 */
+	public function getModule()
+	{
+		return $this->_request('BTSearch', 'DownloadStation/btsearch.cgi', 'getModule');
+	}
 }
