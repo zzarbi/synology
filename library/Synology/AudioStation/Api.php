@@ -126,6 +126,24 @@ class Synology_AudioStation_Api extends Synology_Api_Authenticate{
 	}
 	
 	/**
+	 * List Albums of an Artist
+	 *
+	 * @param string $artist
+	 * @param number $limit
+	 * @param string $sortby (name, ...)
+	 * @param string $sortdirection (asc|desc)
+	 * @return array
+	 */
+	public function listAlbumsOfArtist($artist, $limit = -1, $sortby = 'name', $sortdirection = 'ASC'){	
+		return $this->_request('Album', 'AudioStation/album.cgi', 'list',array(
+				'artist' => $artist,
+				'limit' => $limit,
+				'sort_by' => $sortby,
+				'sort_direction' => $sortdirection
+		));
+	}
+	
+	/**
 	 * List Song objects in an Album
 	 *
 	 * @param string $artist
