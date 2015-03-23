@@ -124,4 +124,44 @@ class Synology_AudioStation_Api extends Synology_Api_Authenticate{
 				'sort_direction' => $sortdirection
 		));
 	}
+	
+	/**
+	 * List Albums of an Artist
+	 *
+	 * @param string $artist
+	 * @param number $limit
+	 * @param string $sortby (name, ...)
+	 * @param string $sortdirection (asc|desc)
+	 * @return array
+	 */
+	public function listAlbumsOfArtist($artist, $limit = -1, $sortby = 'name', $sortdirection = 'ASC'){	
+		return $this->_request('Album', 'AudioStation/album.cgi', 'list',array(
+				'artist' => $artist,
+				'limit' => $limit,
+				'sort_by' => $sortby,
+				'sort_direction' => $sortdirection
+		));
+	}
+	
+	/**
+	 * List Song objects in an Album
+	 *
+	 * @param string $artist
+	 * @param string $album
+	 * @param number $limit
+	 * @param string $sortby (track, ...)
+	 * @param string $sortdirection (asc|desc)
+	 * @param string $additional (song_tag, song_audio, song_rating)
+	 * @return array
+	 */
+	public function listSongsInAlbum($artist, $album, $limit = -1, $sortby = 'track', $sortdirection = 'ASC', $additional = 'song_tag,song_audio,song_rating'){	
+		return $this->_request('Song', 'AudioStation/song.cgi', 'search',array(
+				'album' => $album,
+				'album_artist' => $artist,
+				'limit' => $limit,
+				'sort_by' => $sortby,
+				'sort_direction' => $sortdirection,
+				'additional' => $additional
+		));
+	}
 }
