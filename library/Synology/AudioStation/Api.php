@@ -33,7 +33,7 @@ class Synology_AudioStation_Api extends Synology_Api_Authenticate{
 	 * @param int $offset
 	 * @return array
 	 */
-	public function getObjects($type, $limit = 25, $offset = 0){
+	public function getObjects($type, $limit = 25, $offset = 0, $additional = 'song_tag,song_audio,song_rating'){
 		$path = '';
 		switch ($type){
 			case 'Album':
@@ -59,7 +59,7 @@ class Synology_AudioStation_Api extends Synology_Api_Authenticate{
 			default:
 				throw new Synology_Exception('Unknow "'.$type.'" object');
 		}
-		return $this->_request($type, $path, 'list', array('limit' => $limit, 'offset' => $offset));
+		return $this->_request($type, $path, 'list', array('limit' => $limit, 'offset' => $offset, 'additional' => $additional));
 	}
 	
 	/**
@@ -140,7 +140,7 @@ class Synology_AudioStation_Api extends Synology_Api_Authenticate{
 				'limit' => $limit,
 				'sort_by' => $sortby,
 				'sort_direction' => $sortdirection
-		));
+		), 2, 'post');
 	}
 	
 	/**
@@ -162,6 +162,13 @@ class Synology_AudioStation_Api extends Synology_Api_Authenticate{
 				'sort_by' => $sortby,
 				'sort_direction' => $sortdirection,
 				'additional' => $additional
-		));
+		), 2, 'post');
+	}
+	
+	public function stream($id) {
+		return $this->_request('Stream', 'AudioStation/stream.cgi', 'stream', array(
+			'id' => $id
+		), 2, 'get');
+		
 	}
 }
