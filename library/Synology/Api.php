@@ -32,22 +32,7 @@ class Synology_Api extends Synology_Abstract
      */
     public function getAvailableApi()
     {
-        $services = array();
-        foreach ($this->_request('Info', 'query.cgi', 'query', array(
-            'query' => 'all'
-        )) as $key => $value) {
-            $keys = explode('.', $key);
-            if (! array_key_exists($keys[0], $services)) {
-                $services[$keys[0]] = array();
-            }
-            
-            if (! array_key_exists($keys[1], $services[$keys[0]])) {
-                $services[$keys[0]][$keys[1]] = array();
-            }
-            
-            $services[$keys[0]][$keys[1]][$keys[2]] = $value;
-        }
-        return $services;
+        return $this->_request('Info', 'query.cgi', 'query', array('query' => 'all'));
     }
 
     /**
