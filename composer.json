@@ -1,9 +1,11 @@
 {
     "name": "zzarbi/synology",
     "description": "Synology API interface",
+    "homepage": "https://github.com/zzarbi/synology",
     "version": "1.0.0-dev",
     "keywords" : [
-        "synology"
+        "synology",
+        "nas"
     ],
     "type": "library",
     "license": "MIT",
@@ -14,7 +16,12 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "require-dev": {
+        "php": ">=5.3.0"
+    },
     "support": {
         "issues": "https://github.com/zzarbi/synology/issues"
     },
