@@ -10,7 +10,7 @@ function __autoload($class_name)
     include $path . '.php';
 }
 
-$synology = new Synology_AudioStation_Api('192.168.10.5', 5001, 'https', 1);
+$synology = new Synology_Api('192.168.10.5', 5001, 'https', 1);
 $synology->activateDebug();
 $synology->connect('admin', '****');
-print_r($synology->getInfo());
+print_r($synology->getAvailableApi());

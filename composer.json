@@ -1,0 +1,26 @@
+{
+    "name": "zzarbi/synology",
+    "description": "Synology API interface",
+    "version": "1.0.0-dev",
+    "keywords" : [
+        "synology"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicolas Cerveaux",
+            "email": "nicolas.cerveaux@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "support": {
+        "issues": "https://github.com/zzarbi/synology/issues"
+    },
+    "autoload": {
+        "psr-0": {
+            "Synology_": "src/Synology/"
+        }
+    }
+}
