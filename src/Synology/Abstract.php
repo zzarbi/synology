@@ -23,7 +23,7 @@ class Synology_Abstract
     private $_namespace = null;
 
     private $_debug = false;
-    
+
     private $_verifySSL = false;
 
     private $_errorCodes = array(
@@ -57,11 +57,11 @@ class Synology_Abstract
         if (! empty($port) && is_numeric($port)) {
             $this->_port = (int) $port;
         }
-        
+
         if (! empty($protocol)) {
             $this->_protocol = $protocol;
         }
-        
+
         $this->_version = $version;
     }
 
@@ -77,7 +77,7 @@ class Synology_Abstract
 
     /**
      * Get ApiName
-     * 
+     *
      * @param string $api
      */
     private function _getApiName($api)
@@ -98,70 +98,63 @@ class Synology_Abstract
      */
     protected function _request($api, $path, $method, $params = array(), $version = null, $httpMethod = 'get')
     {
-        if (! is_array($params)) {
-            if (! empty($params)) {
-                $params = array(
-                    $params
-                );
-            } else {
-                $params = array();
-            }
+        if (!is_array($params)) {
+            $params = array(
+                $params
+            );
         }
+
         $params['api'] = $this->_getApiName($api);
         $params['version'] = ((int) $version > 0) ? (int) $version : $this->_version;
         $params['method'] = $method;
-        
+
         // create a new cURL resource
         $ch = curl_init();
-        
+
         if ($httpMethod !== 'post') {
             $url = $this->_getBaseUrl() . $path . '?' . http_build_query($params);
             $this->log($url, 'Requested Url');
-            
+
             curl_setopt($ch, CURLOPT_URL, $url);
         } else {
             $url = $this->_getBaseUrl() . $path;
             $this->log($url, 'Requested Url');
             $this->log($params, 'Post Variable');
-            
+
             // set the url, number of POST vars, POST data
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_POST, count($params));
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
         }
-        
+
         // set URL and other appropriate options
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, self::CONNECT_TIMEOUT);
-        
+
         // Verify SSL or not
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->_verifySSL);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->_verifySSL);
-        
+
         // grab URL and pass it to the browser
         $result = curl_exec($ch);
         $info = curl_getinfo($ch);
-        
+        curl_close($ch);
+
         $this->log($info['http_code'], 'Response code');
         if (200 == $info['http_code']) {
             if (preg_match('#(plain|text)#', $info['content_type'])) {
                 return $this->_parseRequest($result);
-            } else {
-                return $result;
             }
-        } else {
-            curl_close($ch);
-            if ($info['total_time'] >= (self::CONNECT_TIMEOUT / 1000)) {
-                throw new Synology_Exception('Connection Timeout');
-            } else {
-                $this->log($result, 'Result');
-                throw new Synology_Exception('Connection Error');
-            }
+            return $result;
         }
-        
-        // close cURL resource, and free up system resources
-        curl_close($ch);
+
+        if ($info['total_time'] >= (self::CONNECT_TIMEOUT / 1000)) {
+            throw new Synology_Exception('Connection Timeout');
+        }
+
+        $this->log($result, 'Result');
+        throw new Synology_Exception('Connection Error');
     }
 
     /**
@@ -176,18 +169,15 @@ class Synology_Abstract
             if ($data->success == 1) {
                 if (isset($data->data)) {
                     return $data->data;
-                } else {
-                    return true;
                 }
-            } else {
-                if (array_key_exists($data->error->code, $this->_errorCodes)) {
-                    throw new Synology_Exception($this->_errorCodes[$data->error->code]);
-                }
+                return true;
             }
-        } else {
-            // return raw data
-            return $json;
+
+            if (array_key_exists($data->error->code, $this->_errorCodes)) {
+                throw new Synology_Exception($this->_errorCodes[$data->error->code]);
+            }
         }
+        return $json;
     }
 
     /**
@@ -213,12 +203,12 @@ class Synology_Abstract
             if ($key != null) {
                 echo $key . ': ';
             }
+
             if (is_object($value) || is_array($value)) {
-                echo PHP_EOL . print_r($value, true);
-            } else {
-                echo $value;
+                $value = PHP_EOL . print_r($value, true);
             }
-            echo PHP_EOL;
+
+            echo $value . PHP_EOL;
         }
     }
 }
