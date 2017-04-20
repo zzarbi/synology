@@ -175,6 +175,8 @@ class Synology_Abstract
 
             if (array_key_exists($data->error->code, $this->_errorCodes)) {
                 throw new Synology_Exception($this->_errorCodes[$data->error->code]);
+            } else {
+                throw new Synology_Exception(null, $data->error->code);
             }
         }
         return $json;
