@@ -128,9 +128,10 @@ class Synology_DownloadStation_Api extends Synology_Api_Authenticate
      * @param string $login
      * @param string $password
      * @param string $zipPassword
+     * @param string $destination
      * @return Ambigous <stdClass, multitype:, boolean>
      */
-    public function addTask($uri, $file = null, $login = null, $password = null, $zipPassword = null)
+    public function addTask($uri, $file = null, $login = null, $password = null, $zipPassword = null, $destination = null)
     {
         $params = array(
             'uri' => $uri
@@ -145,6 +146,10 @@ class Synology_DownloadStation_Api extends Synology_Api_Authenticate
         
         if (! empty($zipPassword)) {
             $params['login'] = $zipPassword;
+        }
+        
+        if (! empty($destination)) {
+            $params['destination'] = $destination;
         }
         
         return $this->_request('Task', 'DownloadStation/task.cgi', 'create', $params, null, 'post');
