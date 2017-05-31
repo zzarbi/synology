@@ -10,7 +10,15 @@ function __autoload($class_name)
     include $path . '.php';
 }
 
+// Basic connectiont
 $synology = new Synology_Api('192.168.10.5', 5001, 'https', 1);
 $synology->activateDebug();
 $synology->connect('admin', '****');
 print_r($synology->getAvailableApi());
+
+
+// Get a list of latest moive added
+$synology = new Synology_VideoStation_Api('192.168.10.5', 5001, 'https', 1);
+$synology->activateDebug();
+$synology->connect('admin', '****');
+print_r($synology->listObjects('Movie'));

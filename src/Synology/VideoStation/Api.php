@@ -80,8 +80,8 @@ class Synology_VideoStation_Api extends Synology_Api_Authenticate
      *
      * @param string $name
      * @param string $type (Movie|TVShow|TVShowEpisode|HomeVideo|TVRecording|Collection)
-     * @param number $limit
-     * @param number $offset
+     * @param int $limit
+     * @param int $offset
      * @param string $sortby (title|original_available)
      * @param string $sortdirection (asc|desc)
      * @return array
@@ -119,6 +119,54 @@ class Synology_VideoStation_Api extends Synology_Api_Authenticate
             'offset' => $offset,
             'sort_by' => $sortby,
             'sort_direction' => $sortdirection
-        ));
+        ), 4);
+    }
+    
+    /**
+     * List all objects of one kind
+     * 
+     * @param string $type
+     * @param int $limit
+     * @param int $offset
+     * @param string $sortby
+     * @param string $sortdirection
+     * @param string $additional json array as sting
+     * @throws Synology_Exception
+     * @return stdClass
+     */
+    public function listObjects($type, $limit = 25, $offset = 0, $sortby = 'added', $sortdirection = 'desc', $additional = '["poster_mtime","summary","watched_ratio","collection"]')
+    {   
+        $path = '';
+        $type = ucfirst($type);
+        switch ($type) {
+            case 'Movie':
+                $path = 'VideoStation/movie.cgi';
+                break;
+            case 'TVShow':
+                $path = 'VideoStation/tvshow.cgi';
+                break;
+            case 'TVShowEpisode':
+                $path = 'VideoStation/tvshow_episode.cgi';
+                break;
+            case 'HomeVideo':
+                $path = 'VideoStation/homevideo.cgi';
+                break;
+            case 'TVRecording':
+                $path = 'VideoStation/tvrecord.cgi';
+                break;
+            case 'Collection':
+                $path = 'VideoStation/collection.cgi';
+                break;
+            default:
+                throw new Synology_Exception('Unknow "' . $type . '" object');
+        }
+        
+        return $this->_request($type, $path, 'list', array(
+            'limit' => $limit,
+            'offset' => $offset,
+            'sort_by' => $sortby,
+            'sort_direction' => $sortdirection,
+            'additional' => $additional
+        ), 4);
     }
 }

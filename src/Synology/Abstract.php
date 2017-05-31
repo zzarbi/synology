@@ -108,6 +108,7 @@ class Synology_Abstract
         $params['version'] = ((int) $version > 0) ? (int) $version : $this->_version;
         $params['method'] = $method;
 
+        print_r($params);
         // create a new cURL resource
         $ch = curl_init();
 

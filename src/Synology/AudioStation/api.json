@@ -1,131 +1,206 @@
 {
-	"SYNO.AudioStation.Info": {
-		"path": "AudioStation/info.cgi",
-		"minVersion": 1,
-		"maxVersion": 2,
-		"methods": {
-			"1": ["getinfo"],
-			"2": ["getinfo"]
-		}
-	},
-	"SYNO.AudioStation.Album": {
-		"path": "AudioStation/album.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["list"]
-		}
-	},
-	"SYNO.AudioStation.Composer": {
-		"path": "AudioStation/composer.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["list"]
-		}
-	},
-	"SYNO.AudioStation.Genre": {
-		"path": "AudioStation/genre.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["list"]
-		}
-	},
-	"SYNO.AudioStation.Artist": {
-		"path": "AudioStation/artist.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["list"]
-		}
-	},
-	"SYNO.AudioStation.Folder": {
-		"path": "AudioStation/folder.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["list", "getinfo"]
-		}
-	},
-	"SYNO.AudioStation.Song": {
-		"path": "AudioStation/song.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["list", "search", "getinfo"]
-		}
-	},
-	"SYNO.AudioStation.Stream": {
-		"path": "AudioStation/stream.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["stream", "transcode"]
-		}
-	},
-	"SYNO.AudioStation.Radio": {
-		"path": "AudioStation/radio.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["list", "add", "updateradios"]
-		}
-	},
-	"SYNO.AudioStation.Playlist": {
-		"path": "AudioStation/playlist.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["list", "getinfo", "create", "delete", "rename", "copytolibrary", "updatesongs", "createsmart", "updatesmart"]
-		}
-	},
-	"SYNO.AudioStation.RemotePlayer": {
-		"path": "AudioStation/remote_player.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["list", "getstatus", "getplaylist", "updateplaylist", "control", "testpassword", "setpassword"]
-		}
-	},
-        "SYNO.AudioStation.Proxy": {
-		"path": "AudioStation/proxy.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["getstreamid", "stream", "getsonginfo", "deletesonginfo"]
-		}
-	},
-        "SYNO.AudioStation.Lyrics": {
-		"path": "AudioStation/lyrics.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["getlyrics", "setlyrics"]
-		}
-	},
-        "SYNO.AudioStation.LyricsSearch": {
-		"path": "AudioStation/lyrics_search.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["searchlyrics"]
-		}
-	},
-        "SYNO.AudioStation.MediaServer": {
-		"path": "AudioStation/media_server.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["list"]
-		}
-	},
-        "SYNO.AudioStation.Cover": {
-		"path": "AudioStation/cover.cgi",
-		"minVersion": 1,
-		"maxVersion": 1,
-		"methods": {
-			"1": ["getsongcover", "getfoldercover", "getcover"]
-		}
-	}
+    "SYNO.AudioStation.Album": {
+        "maxVersion": 3,
+        "methods": {
+            "1": ["list"],
+            "2": ["list"],
+            "3": ["list"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/album.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Artist": {
+        "maxVersion": 4,
+        "methods": {
+            "1": ["list"],
+            "2": ["list"],
+            "3": ["list"],
+            "4": ["list"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/artist.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Composer": {
+        "maxVersion": 2,
+        "methods": {
+            "1": ["list"],
+            "2": ["list"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/composer.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Cover": {
+        "maxVersion": 3,
+        "methods": {
+            "1": ["getsongcover", "getfoldercover", "getcover"],
+            "2": ["getsongcover", "getfoldercover", "getcover"],
+            "3": ["getsongcover", "getfoldercover", "getcover"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/cover.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Download": {
+        "maxVersion": 1,
+        "methods": {
+            "1": ["download"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/download.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Folder": {
+        "maxVersion": 3,
+        "methods": {
+            "1": ["list", "getinfo"],
+            "2": ["list", "getinfo"],
+            "3": ["list", "getinfo"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/folder.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Genre": {
+        "maxVersion": 3,
+        "methods": {
+            "1": ["list"],
+            "2": ["list"],
+            "3": ["list", "list_default_genre"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/genre.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Info": {
+        "maxVersion": 4,
+        "methods": {
+            "1": ["getinfo"],
+            "2": ["getinfo"],
+            "3": ["getinfo"],
+            "4": ["getinfo"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/info.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Lyrics": {
+        "maxVersion": 2,
+        "methods": {
+            "1": ["getlyrics", "setlyrics"],
+            "2": ["getlyrics", "setlyrics"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/lyrics.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.LyricsSearch": {
+        "maxVersion": 2,
+        "methods": {
+            "1": ["searchlyrics"],
+            "2": ["searchlyrics"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/lyrics_search.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.MediaServer": {
+        "maxVersion": 1,
+        "methods": {
+            "1": ["list"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/media_server.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Playlist": {
+        "maxVersion": 3,
+        "methods": {
+            "1": ["list", "getinfo", "create", "delete", "rename", "copytolibrary", "updatesongs", "createsmart", "updatesmart"],
+            "2": ["list", "getinfo", "create", "delete", "rename", "copytolibrary", "updatesongs", "createsmart", "updatesmart", "editsharing", "saveplaying", "savesearch", "removemissing"],
+            "3": ["list", "getinfo", "create", "delete", "rename", "copytolibrary", "updatesongs", "createsmart", "updatesmart", "editsharing", "saveplaying", "savesearch", "removemissing"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/playlist.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Proxy": {
+        "maxVersion": 1,
+        "methods": {
+            "1": ["getstreamid", "stream", "getsonginfo", "deletesonginfo"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/proxy.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Radio": {
+        "maxVersion": 2,
+        "methods": {
+            "1": ["list", "add", "updateradios"],
+            "2": ["list", "add", "search", "updateradios"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/radio.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.RemotePlayer": {
+        "maxVersion": 2,
+        "methods": {
+            "1": ["list", "getstatus", "getplaylist", "updateplaylist", "control", "testpassword", "setpassword"],
+            "2": ["list", "getinfo", "getstatus", "getplaylist", "updateplaylist", "control", "setmultiple", "testpassword", "setpassword"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/remote_player.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.RemotePlayerStatus": {
+        "maxVersion": 1,
+        "methods": {
+            "1": ["getstatus"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/remote_player_status.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Search": {
+        "maxVersion": 1,
+        "methods": {
+            "1": ["list"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/search.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Song": {
+        "maxVersion": 3,
+        "methods": {
+            "1": ["list", "search", "getinfo"],
+            "2": ["list", "search", "getinfo", "setrating", "setsharing", "getsharing"],
+            "3": ["list", "search", "getinfo", "setrating", "setsharing", "getsharing"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/song.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.Stream": {
+        "maxVersion": 2,
+        "methods": {
+            "1": ["stream", "transcode"],
+            "2": ["stream", "transcode"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/stream.cgi",
+        "runAs": "AudioStation"
+    },
+    "SYNO.AudioStation.WebPlayer": {
+        "maxVersion": 1,
+        "methods": {
+            "1": ["getplaylist", "updateplaylist"]
+        },
+        "minVersion": 1,
+        "path": "AudioStation/web_player.cgi",
+        "runAs": "AudioStation"
+    }
 }
