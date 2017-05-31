@@ -52,6 +52,7 @@ This is a PHP Library that consume Synology APIs
     * getInfo
     * getObjects
     * searchObject
+    * listObjects
     
 Usage for Synology Api:
 ```php

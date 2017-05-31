@@ -10,7 +10,7 @@ function __autoload($class_name)
     include $path . '.php';
 }
 
-// Basic connectiont
+// Basic usage
 $synology = new Synology_Api('192.168.10.5', 5001, 'https', 1);
 $synology->activateDebug();
 $synology->connect('admin', '****');

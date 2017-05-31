@@ -9,7 +9,9 @@ class Synology_Abstract
 
     const API_NAMESPACE = 'SYNO';
 
-    const CONNECT_TIMEOUT = 30000; // 30s
+    const CONNECT_TIMEOUT = 2000;
+    const REQUEST_TIMEOUT = 30000;
+    
     private $_protocol = self::PROTOCOL_HTTP;
 
     private $_port = 80;
@@ -108,7 +110,6 @@ class Synology_Abstract
         $params['version'] = ((int) $version > 0) ? (int) $version : $this->_version;
         $params['method'] = $method;
 
-        print_r($params);
         // create a new cURL resource
         $ch = curl_init();
 
@@ -132,6 +133,7 @@ class Synology_Abstract
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, self::CONNECT_TIMEOUT);
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, self::REQUEST_TIMEOUT);
 
         // Verify SSL or not
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->_verifySSL);
@@ -150,7 +152,7 @@ class Synology_Abstract
             return $result;
         }
 
-        if ($info['total_time'] >= (self::CONNECT_TIMEOUT / 1000)) {
+        if ($info['total_time'] >= (self::REQUEST_TIMEOUT / 1000)) {
             throw new Synology_Exception('Connection Timeout');
         }
 
