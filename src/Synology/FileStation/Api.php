@@ -45,14 +45,14 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
      */
     public function getShares($onlywritable = false, $limit = 25, $offset = 0, $sortby = 'name', $sortdirection = 'asc', $additional = false)
     {
-        return $this->_request('List', 'FileStation/file_share.cgi', 'list_share', array(
+        return $this->_request('List', 'entry.cgi', 'list_share', array(
             'onlywritable' => $onlywritable,
             'limit' => $limit,
             'offset' => $offset,
             'sort_by' => $sortby,
             'sort_direction' => $sortdirection,
             'additional' => $additional ? 'real_path,owner,time,perm,volume_status' : ''
-        ));
+        ), 2);
     }
 
     /**
@@ -122,7 +122,7 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
      */
     public function search($pattern, $path = '/home', $limit = 25, $offset = 0, $sortby = 'name', $sortdirection = 'asc', $filetype = 'all', $additional = false)
     {
-        return $this->_request('List', 'FileStation/file_share.cgi', 'list', array(
+        return $this->_request('List', 'entry.cgi', 'list', array(
             'folder_path' => $path,
             'limit' => $limit,
             'offset' => $offset,
@@ -131,7 +131,7 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
             'pattern' => $pattern,
             'filetype' => $filetype,
             'additional' => $additional ? 'real_path,size,owner,time,perm' : ''
-        ));
+        ), 2);
     }
 
     /**
@@ -143,10 +143,10 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
      */
     public function download($path, $mode = 'open')
     {
-        return $this->_request('Download', 'FileStation/file_download.cgi', 'download', array(
+        return $this->_request('Download', 'entry.cgi', 'download', array(
             'path' => $path,
             'mode' => $mode
-        ));
+        ), 2);
     }
 
     /**
