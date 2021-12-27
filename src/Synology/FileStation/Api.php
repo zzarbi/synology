@@ -22,14 +22,14 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
     }
 
     /**
-     * Return Information about VideoStation
+     * Return Information about FileStation
      * - is_manager
      * - version
      * - version_string
      */
     public function getInfo()
     {
-        return $this->_request('Info', 'FileStation/info.cgi', 'getinfo');
+        return $this->_request('Info', 'entry.cgi', 'get', [], 2);
     }
 
     /**
