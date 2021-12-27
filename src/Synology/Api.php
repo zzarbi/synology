@@ -61,7 +61,7 @@ class Synology_Api extends Synology_Abstract
         $data = $this->_request('Auth', 'auth.cgi', 'login', $options, 3);
         
         // save session name id
-        $this->_sid = $data->sid;
+        $this->_sid = $data->data->sid;
         
         return $this;
     }
