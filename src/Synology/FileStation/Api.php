@@ -22,14 +22,14 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
     }
 
     /**
-     * Return Information about VideoStation
+     * Return Information about FileStation
      * - is_manager
      * - version
      * - version_string
      */
     public function getInfo()
     {
-        return $this->_request('Info', 'FileStation/info.cgi', 'getinfo');
+        return $this->_request('Info', 'entry.cgi', 'get', [], 2);
     }
 
     /**
@@ -45,14 +45,14 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
      */
     public function getShares($onlywritable = false, $limit = 25, $offset = 0, $sortby = 'name', $sortdirection = 'asc', $additional = false)
     {
-        return $this->_request('List', 'FileStation/file_share.cgi', 'list_share', array(
+        return $this->_request('List', 'entry.cgi', 'list_share', array(
             'onlywritable' => $onlywritable,
             'limit' => $limit,
             'offset' => $offset,
             'sort_by' => $sortby,
             'sort_direction' => $sortdirection,
             'additional' => $additional ? 'real_path,owner,time,perm,volume_status' : ''
-        ));
+        ), 2);
     }
 
     /**
@@ -95,7 +95,7 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
      */
     public function getList($path = '/home', $limit = 25, $offset = 0, $sortby = 'name', $sortdirection = 'asc', $pattern = '', $filetype = 'all', $additional = false)
     {
-        return $this->_request('List', 'FileStation/file_share.cgi', 'list', array(
+        return $this->_request('List', 'entry.cgi', 'list_share', array(
             'folder_path' => $path,
             'limit' => $limit,
             'offset' => $offset,
@@ -104,7 +104,7 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
             'pattern' => $pattern,
             'filetype' => $filetype,
             'additional' => $additional ? 'real_path,size,owner,time,perm' : ''
-        ));
+        ), 2);
     }
 
     /**
@@ -122,7 +122,7 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
      */
     public function search($pattern, $path = '/home', $limit = 25, $offset = 0, $sortby = 'name', $sortdirection = 'asc', $filetype = 'all', $additional = false)
     {
-        return $this->_request('List', 'FileStation/file_share.cgi', 'list', array(
+        return $this->_request('List', 'entry.cgi', 'list', array(
             'folder_path' => $path,
             'limit' => $limit,
             'offset' => $offset,
@@ -131,7 +131,7 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
             'pattern' => $pattern,
             'filetype' => $filetype,
             'additional' => $additional ? 'real_path,size,owner,time,perm' : ''
-        ));
+        ), 2);
     }
 
     /**
@@ -143,9 +143,27 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
      */
     public function download($path, $mode = 'open')
     {
-        return $this->_request('Download', 'FileStation/file_download.cgi', 'download', array(
+        return $this->_request('Download', 'entry.cgi', 'download', array(
             'path' => $path,
             'mode' => $mode
-        ));
+        ), 2);
+    }
+
+    /**
+     * Create a folder
+     * 
+     * @param $path
+     * @param $name
+     * @param false $force_parent
+     * @return bool|stdClass
+     * @throws Synology_Exception
+     */
+    public function createFolder($path, $name, $force_parent = false)
+    {
+        return $this->_request('CreateFolder', 'entry.cgi', 'create', array(
+            'folder_path' => $path,
+            'name' => $name,
+            'force_parent' => true,
+        ), 2);
     }
 }
