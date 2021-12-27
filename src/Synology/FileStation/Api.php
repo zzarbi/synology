@@ -95,7 +95,7 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
      */
     public function getList($path = '/home', $limit = 25, $offset = 0, $sortby = 'name', $sortdirection = 'asc', $pattern = '', $filetype = 'all', $additional = false)
     {
-        return $this->_request('List', 'FileStation/file_share.cgi', 'list', array(
+        return $this->_request('List', 'entry.cgi', 'list_share', array(
             'folder_path' => $path,
             'limit' => $limit,
             'offset' => $offset,
@@ -104,7 +104,7 @@ class Synology_FileStation_Api extends Synology_Api_Authenticate
             'pattern' => $pattern,
             'filetype' => $filetype,
             'additional' => $additional ? 'real_path,size,owner,time,perm' : ''
-        ));
+        ), 2);
     }
 
     /**
