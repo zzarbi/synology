@@ -45,6 +45,7 @@ This is a PHP Library that consume Synology APIs
     * getList
     * search
     * download
+    * createFolder
     
 * SYNO.VideoStation:
     * connect
